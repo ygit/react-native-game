@@ -30,9 +30,10 @@ export const PrimaryButton: React.FC<PrimaryButtonProps> = ({
 
 const styles = StyleSheet.create({
   outerContainer: {
-    borderRadius: 28,
+    borderRadius: 36,
     margin: 4,
     overflow: "hidden",
+    padding: 8,
   },
   innerContainer: {
     backgroundColor: Colors.primary500,
