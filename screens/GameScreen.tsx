@@ -9,8 +9,6 @@ const generateRandomNumber = (
   max: number,
   exclude: number,
 ): number => {
-  min = Math.ceil(min);
-  max = Math.floor(max);
   const randomNumber = Math.floor(Math.random() * (max - min)) + min;
   if (randomNumber === exclude) {
     return generateRandomNumber(min, max, exclude);
@@ -23,12 +21,13 @@ type GameScreenProps = {
   userChoice: number;
 };
 
+let minBoundary = 1;
+let maxBoundary = 100;
+
 export const GameScreen: React.FC<GameScreenProps> = ({ userChoice }) => {
   const initialGuess = generateRandomNumber(1, 100, userChoice);
   const [currentGuess, setCurrentGuess] = useState(initialGuess);
 
-  let minBoundary = 1;
-  let maxBoundary = 100;
   const nextGuessHandler = (direction: "lower" | "higher") => {
     if (
       (direction === "lower" && currentGuess < userChoice) ||
@@ -44,7 +43,7 @@ export const GameScreen: React.FC<GameScreenProps> = ({ userChoice }) => {
     } else {
       minBoundary = currentGuess + 1;
     }
-    console.log(minBoundary, maxBoundary);
+    console.log(minBoundary, maxBoundary, currentGuess, initialGuess);
     setCurrentGuess(
       generateRandomNumber(minBoundary, maxBoundary, currentGuess),
     );
@@ -61,7 +60,7 @@ export const GameScreen: React.FC<GameScreenProps> = ({ userChoice }) => {
   return (
     <View style={styles.container}>
       <Title text={"Opponent's Guess"} />
-      <NumberContainer>{initialGuess}</NumberContainer>
+      <NumberContainer>{currentGuess}</NumberContainer>
       <View>
         <View style={styles.buttonContainer}>
           <PrimaryButton onPress={higherHandler}>Higher</PrimaryButton>

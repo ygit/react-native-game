@@ -14,7 +14,6 @@ export const StartGameScreen: React.FC<StartGameScreenProps> = ({
 
   const numberInputHandler = (inputText: string) => {
     setEnteredNumber(inputText.replace(/[^0-9]/g, ""));
-    console.log(enteredNumber);
   };
 
   const confirmInputHandler = () => {
