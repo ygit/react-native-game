@@ -1,10 +1,18 @@
-import { Text, View, StyleSheet, Alert, FlatList } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  Alert,
+  FlatList,
+  useWindowDimensions,
+} from "react-native";
 import { Title } from "../components/ui/Title";
 import React, { useEffect, useState } from "react";
 import { NumberContainer } from "../components/game/NumberContainer";
 import { PrimaryButton } from "../components/ui/PrimaryButton";
 import { Card } from "../components/ui/Card";
 import { Colors } from "../constants/colors";
+import { ListItem } from "../components/ui/ListItem";
 
 const generateRandomNumber = (
   min: number,
@@ -85,16 +93,8 @@ export const GameScreen: React.FC<GameScreenProps> = ({
     nextGuessHandler("lower");
   };
 
-  const renderListItem = (listLength: number, itemData: any) => (
-    <View style={styles.listItem}>
-      <Text style={styles.listText}>#{listLength - itemData.index}</Text>
-      <Text style={styles.listText}>{itemData.item}</Text>
-    </View>
-  );
-
-  return (
-    <View style={styles.container}>
-      <Title text={"Opponent's Guess"} />
+  let content = (
+    <>
       <NumberContainer>{currentGuess}</NumberContainer>
       <Card>
         <View style={styles.buttonContainer}>
@@ -102,10 +102,29 @@ export const GameScreen: React.FC<GameScreenProps> = ({
           <PrimaryButton onPress={lowerHandler}>Lower</PrimaryButton>
         </View>
       </Card>
+    </>
+  );
+
+  const { width, height } = useWindowDimensions();
+
+  if (width > 500) {
+  }
+
+  return (
+    <View style={styles.container}>
+      <Title text={"Opponent's Guess"} />
+      {content}
       <View style={styles.listContainer}>
         <FlatList
           data={guessRounds}
-          renderItem={renderListItem.bind(null, guessRounds.length)}
+          // renderItem={renderListItem.bind(null, guessRounds.length)}
+          renderItem={({ item, index }) => (
+            <ListItem
+              listLength={guessRounds.length}
+              item={item}
+              index={index}
+            />
+          )}
           keyExtractor={(item) => item.toString()}
         />
       </View>
@@ -123,28 +142,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
     maxWidth: "100%",
     padding: 8,
-  },
-  listItem: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    borderColor: Colors.accent500,
-    borderWidth: 1,
-    padding: 15,
-    marginVertical: 10,
-    backgroundColor: Colors.primary500,
-    borderRadius: 8,
-    elevation: 2,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-  },
-  listText: {
-    color: Colors.accent500,
-    fontFamily: "open-sans-bold",
-    fontSize: 18,
   },
   listContainer: {
     flex: 1,
