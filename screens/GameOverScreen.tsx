@@ -1,4 +1,4 @@
-import { Image, View, StyleSheet, Text } from "react-native";
+import { Image, View, StyleSheet, Text, ScrollView } from "react-native";
 import React from "react";
 import { Title } from "../components/ui/Title";
 import { Colors } from "../constants/colors";
@@ -16,28 +16,33 @@ export const GameOverScreen: React.FC<GameOverScreenProps> = ({
   startNewGame,
 }) => {
   return (
-    <View style={styles.container}>
-      <Title text={"Game Over"} />
-      <View style={styles.imageContainer}>
-        <Image
-          style={styles.image}
-          source={require("../assets/success.png")}
-          resizeMode={"cover"}
-        />
+    <ScrollView style={styles.screen}>
+      <View style={styles.container}>
+        <Title text={"Game Over"} />
+        <View style={styles.imageContainer}>
+          <Image
+            style={styles.image}
+            source={require("../assets/success.png")}
+            resizeMode={"cover"}
+          />
+        </View>
+        <View>
+          <Text style={styles.summaryText}>
+            Your phone needed{" "}
+            <Text style={styles.highlight}>{roundsNumber}</Text> rounds to guess
+            the number <Text style={styles.highlight}>{userChoice}</Text>
+          </Text>
+        </View>
+        <PrimaryButton onPress={startNewGame}>Start a New Game</PrimaryButton>
       </View>
-      <View>
-        <Text style={styles.summaryText}>
-          Your phone needed <Text style={styles.highlight}>{roundsNumber}</Text>{" "}
-          rounds to guess the number{" "}
-          <Text style={styles.highlight}>{userChoice}</Text>
-        </Text>
-      </View>
-      <PrimaryButton onPress={startNewGame}>Start a New Game</PrimaryButton>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+  },
   container: {
     flex: 1,
     marginTop: 50,
